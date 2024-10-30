@@ -1,0 +1,70 @@
+--------------------Criando o Banco de Dados
+CREATE DATABASE adocao_pets;
+
+---------------------Criando a Tabela de Usuários
+USE adocao_pets;  -- Seleciona o banco de dados
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    tipo ENUM('tutor', 'adotante') NOT NULL
+);
+
+---------------------Inserindo Usuários para Teste
+INSERT INTO usuarios (nome, email, senha, tipo) 
+VALUES ('João Silva', 'joao@email.com', 
+        '" . password_hash("senha123", PASSWORD_DEFAULT) . "', 'tutor');
+
+----------------------tabela de pets:
+CREATE TABLE pets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    especie VARCHAR(50) NOT NULL,
+    idade INT NOT NULL,
+    status ENUM('disponivel', 'adotado', 'perdido', 'falecido') NOT NULL
+);
+
+---------------------Inserir Alguns Pets
+INSERT INTO pets (nome, especie, idade, status) VALUES
+('Rex', 'Cachorro', 5, 'disponivel'),
+('Mia', 'Gato', 2, 'adotado'),
+('Tobby', 'Cachorro', 3, 'perdido');
+
+
+-----------------------Tabela acompanhamentos
+CREATE TABLE acompanhamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pet_id INT NOT NULL,
+    data DATE NOT NULL,
+    observacao TEXT,
+    FOREIGN KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE
+);
+
+
+-----------------------Tabela para Preferências dos Adotantes
+CREATE TABLE preferencias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    especie VARCHAR(50),
+    porte VARCHAR(50),
+    sexo VARCHAR(10),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
